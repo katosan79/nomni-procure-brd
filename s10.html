@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Functional Requirements — Nomni Procure BRD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.7;color:#1a1a1a;background:#fff}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;background:#fafafa;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;z-index:100}
+.main{margin-left:260px;flex:1;min-width:0}
+
+/* ── SIDEBAR HEADER ── */
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid #e8e8e8}
+.sb-product{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0e7a3a;margin-bottom:2px}
+.sb-doc{font-size:12px;color:#888;line-height:1.4}
+
+/* ── SEARCH ── */
+.sb-search{padding:12px 14px;border-bottom:1px solid #e8e8e8}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;pointer-events:none;font-size:13px}
+#search-input{width:100%;padding:7px 10px 7px 30px;font-size:13px;border:1px solid #e0e0e0;border-radius:6px;outline:none;background:#fff;color:#1a1a1a;transition:border-color .15s}
+#search-input:focus{border-color:#0e7a3a}
+#search-input::placeholder{color:#bbb}
+
+/* ── SEARCH RESULTS DROPDOWN ── */
+#search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200;max-height:320px;overflow-y:auto;display:none}
+#search-results.visible{display:block}
+.sr-item{display:block;padding:10px 14px;text-decoration:none;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover,.sr-item.active{background:#f5faf7}
+.sr-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#0e7a3a;margin-bottom:2px}
+.sr-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px}
+.sr-snippet{font-size:12px;color:#666;line-height:1.5}
+.sr-snippet mark{background:#e6f5ec;color:#0e7a3a;border-radius:2px;padding:0 2px;font-style:normal}
+.sr-empty{padding:14px;font-size:13px;color:#999;text-align:center}
+
+/* ── NAV LIST ── */
+.nav-list{flex:1;padding:8px 0 24px}
+.nav-item{display:block;padding:6px 20px 6px 18px;font-size:13px;color:#555;text-decoration:none;border-left:2px solid transparent;transition:all .12s;line-height:1.4}
+.nav-item:hover{color:#1a1a1a;background:#f3f3f3}
+.nav-item.active{color:#0e7a3a;border-left-color:#0e7a3a;background:#f0faf4;font-weight:500}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#bbb;font-variant-numeric:tabular-nums;flex-shrink:0}
+.nav-item.active .nav-num{color:#0e7a3a}
+.nav-divider{height:1px;background:#efefef;margin:6px 14px}
+
+/* ── SIDEBAR FOOTER ── */
+.sb-footer{padding:12px 20px;border-top:1px solid #e8e8e8;font-size:11px;color:#bbb}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:48px 64px 32px;border-bottom:1px solid #efefef;max-width:900px}
+.page-eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#0e7a3a;margin-bottom:8px}
+.page-title{font-size:32px;font-weight:700;color:#111;line-height:1.2;letter-spacing:-.02em}
+.page-subtitle{font-size:15px;color:#666;margin-top:10px;max-width:580px;line-height:1.6}
+
+/* ── CONTENT AREA ── */
+.content{padding:40px 64px 80px;max-width:900px}
+
+/* ── TYPOGRAPHY ── */
+h2{font-size:20px;font-weight:600;color:#111;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #efefef;letter-spacing:-.01em}
+h3{font-size:16px;font-weight:600;color:#111;margin:28px 0 10px}
+h4{font-size:13px;font-weight:700;color:#0e7a3a;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 8px}
+p{margin-bottom:14px;color:#333}
+p:last-child{margin-bottom:0}
+strong{font-weight:600;color:#111}
+
+/* ── LISTS ── */
+ul{margin:6px 0 16px;padding:0;list-style:none}
+ul li{position:relative;padding:5px 0 5px 18px;font-size:14px;color:#333;line-height:1.65;border-bottom:1px solid #f5f5f5}
+ul li:last-child{border-bottom:none}
+ul li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:#0e7a3a}
+
+/* ── NOTE / CALLOUT ── */
+.note{background:#f0faf4;border-left:3px solid #0e7a3a;border-radius:0 6px 6px 0;padding:12px 16px;font-size:13.5px;color:#1d5c2e;margin:16px 0;line-height:1.65}
+
+/* ── TABLES ── */
+.tbl-wrap{margin:16px 0;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.tbl-wrap.wide{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:#f7f7f7}
+thead th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#666;border-bottom:1px solid #e8e8e8;white-space:nowrap}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:10px 14px;vertical-align:top;border-bottom:1px solid #f0f0f0;line-height:1.55;color:#333}
+tbody tr:last-child td{border-bottom:none}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.badge-lead{background:#e0f5e9;color:#0a6e2a}
+.badge-parity{background:#fff3cd;color:#856404}
+.badge-new{background:#ede9fe;color:#5b21b6}
+
+/* ── SEARCH HIGHLIGHT ON PAGE ── */
+mark.hl{background:#fff176;border-radius:2px;padding:0 1px}
+
+/* ── OVERVIEW CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:24px 0}
+.card{display:block;padding:16px 18px;border:1px solid #e8e8e8;border-radius:8px;text-decoration:none;transition:all .15s;background:#fff}
+.card:hover{border-color:#0e7a3a;box-shadow:0 2px 12px rgba(14,122,58,.08)}
+.card-num{font-size:11px;font-weight:600;color:#0e7a3a;margin-bottom:4px;letter-spacing:.04em}
+.card-title{font-size:14px;font-weight:600;color:#111;line-height:1.35}
+.card-desc{font-size:12px;color:#888;margin-top:4px;line-height:1.5}
+
+/* ── META ROW (overview) ── */
+.meta-row{display:flex;flex-wrap:wrap;gap:24px;margin:24px 0;padding:20px;background:#fafafa;border-radius:8px;border:1px solid #efefef}
+.meta-item{}
+.meta-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#999;margin-bottom:3px}
+.meta-value{font-size:14px;font-weight:500;color:#111}
+
+/* ── SCROLLBAR ── */
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .page-header,.content{padding-left:24px;padding-right:24px}
+  .page-title{font-size:24px}
+  .cards{grid-template-columns:1fr 1fr}
+}
+@media print{.sidebar{display:none}.main{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sb-header">
+      <div class="sb-product">Nomni Procure</div>
+      <div class="sb-doc">Business Requirements<br>Document v2.3 · Jun 2026</div>
+    </div>
+    <div class="sb-search">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="search-input" type="text" placeholder="Search the BRD…" autocomplete="off" spellcheck="false"/>
+        <div id="search-results"></div>
+      </div>
+    </div>
+    <div class="nav-list"><div class="nav-divider"></div><a href="index.html" class="nav-item"><span class="nav-num"></span>Overview</a>
+<a href="s1.html" class="nav-item"><span class="nav-num">1</span>Executive Summary</a>
+<a href="s2.html" class="nav-item"><span class="nav-num">2</span>Background & Strategy</a>
+<a href="s3.html" class="nav-item"><span class="nav-num">3</span>Competitive Analysis</a>
+<a href="s4.html" class="nav-item"><span class="nav-num">4</span>Platform Baseline</a>
+<a href="s5.html" class="nav-item"><span class="nav-num">5</span>Data Architecture</a>
+<a href="s6.html" class="nav-item"><span class="nav-num">6</span>Ideal Customer Profiles</a>
+<a href="s7.html" class="nav-item"><span class="nav-num">7</span>Vision & Objectives</a>
+<a href="s8.html" class="nav-item"><span class="nav-num">8</span>User Roles & Access</a>
+<a href="s9.html" class="nav-item"><span class="nav-num">9</span>Scope</a>
+<a href="s10.html" class="nav-item active"><span class="nav-num">10</span>Functional Requirements</a>
+<a href="s11.html" class="nav-item"><span class="nav-num">11</span>Experience & Design</a>
+<a href="s12.html" class="nav-item"><span class="nav-num">12</span>Non-Functional Requirements</a>
+<a href="s13.html" class="nav-item"><span class="nav-num">13</span>Success Metrics</a>
+<a href="s14.html" class="nav-item"><span class="nav-num">14</span>Delivery & Phasing</a>
+<a href="s15.html" class="nav-item"><span class="nav-num">15</span>Risks & Mitigations</a>
+<a href="s16.html" class="nav-item"><span class="nav-num">16</span>Open Questions</a>
+<a href="s17.html" class="nav-item"><span class="nav-num">17</span>Conclusion</a></div>
+    <div class="sb-footer">Internal · Confidential</div>
+  </nav>
+  <main class="main">
+    <div class="page-header">
+      <div class="page-eyebrow">Section 10</div>
+      <h1 class="page-title">Functional Requirements</h1>
+      <p class="page-subtitle">All module requirements — ML, RC, IN, PM, PO, IV, RA, AG, SN, CK.</p>
+    </div>
+    <div class="content">
+<h2>10.1 Market List Assignment</h2>
+<ul><li><strong>ML-1</strong> — HQ can organise and manage market lists by outlet grouping (brand → region → state → outlet).</li><li><strong>ML-2</strong> — HQ can assign a market list — or individual items — to all outlets in a group or a selected subset.</li><li><strong>ML-3</strong> — Changes to an assigned market list propagate automatically to all assigned outlets, with per-outlet status (propagated / pending / error).</li><li><strong>ML-4</strong> — Propagation never affects in-flight orders containing removed or modified items.</li><li><strong>ML-5</strong> — Scheduled propagation: HQ can stage changes to take effect at a future date/time.</li><li><strong>ML-6</strong> — Conflict surface: where an outlet-level exception exists, propagation flags rather than silently overwrites.</li><li><strong>ML-7</strong> — Nomni agent can draft market-list updates from supplier price-file changes for HQ one-click approval.</li></ul>
+<h2>10.2 Recipe Management</h2>
+<ul><li><strong>RC-1</strong> — HQ can create and maintain a central recipe library, including sub-recipes/prep recipes.</li><li><strong>RC-2</strong> — Pushed recipes are locked for outlet users — ingredients and quantities cannot be modified.</li><li><strong>RC-3</strong> — Full version history with timestamps and author; HQ can roll back to any prior version.</li><li><strong>RC-4</strong> — Recipes include selling price, synced bidirectionally with POS price.</li><li><strong>RC-5</strong> — Live recipe costing: ingredient cost changes recompute recipe cost and margin in real time.</li><li><strong>RC-6</strong> — Margin alerts: configurable thresholds trigger notification when price changes push a recipe below target margin, with agent-suggested responses.</li><li><strong>RC-7</strong> — Approval workflow: recipe changes can require HQ Approver sign-off before propagation.</li><li><strong>RC-8</strong> — Allergen and nutrition fields per recipe, propagated with the recipe.</li></ul>
+<h2>10.3 Inventory Management</h2>
+<ul><li><strong>IN-1</strong> — HQ defines a master inventory item list (name, category, UOM) and pushes it to outlets or outlet groups.</li><li><strong>IN-2</strong> — Outlets can organise HQ-defined items into their own lists; items can appear in multiple lists.</li><li><strong>IN-3</strong> — Outlets set and update par levels per item; par levels can also be HQ-templated by outlet archetype.</li><li><strong>IN-4</strong> — Items removed by HQ show downstream impact (N outlets, X recipes, Y POS mappings) and require confirmation.</li><li><strong>IN-5</strong> — Bulk upload via standardised Excel template with validation report.</li><li><strong>IN-6</strong> — Stock counts: scheduled and spot counts on mobile, variance computed against theoretical stock.</li><li><strong>IN-7</strong> — Automated variance analysis by outlet, category, and ingredient, with drill-down.</li><li><strong>IN-8</strong> — Par-based replenishment suggestions: when stock falls below par, a draft order is generated for outlet approval.</li><li><strong>IN-9</strong> — Inter-outlet stock transfers with request → approve → dispatch → receive workflow and audit trail.</li><li><strong>IN-10</strong> — Waste logging with reason codes, feeding variance and cost analytics.</li></ul>
+<h2>10.4 POS Mapping</h2>
+<ul><li><strong>PM-1</strong> — HQ creates and maintains a master POS mapping set and pushes it to all outlets or a subset.</li><li><strong>PM-2</strong> — Outlets cannot modify or add to POS mappings.</li><li><strong>PM-3</strong> — Variants of POS mappings can be replicated selectively for outlets with partial menu differences.</li><li><strong>PM-4</strong> — Pushing to outlets with existing mappings shows a warning and requires explicit HQ confirmation.</li><li><strong>PM-5</strong> — Mapping health monitor: unmapped POS items and stale mappings surfaced continuously per outlet.</li><li><strong>PM-6</strong> — Agent-suggested mappings: when a new POS item appears, agent proposes a mapping based on name/recipe similarity.</li></ul>
+<h2>10.5 Procurement & Ordering (Procure-to-Pay)</h2>
+<p>The platform already runs ordering, approvals, GRN receiving, and 2/3-way match; this module adds the requisition stage, multi-level policy approvals, and spend controls.</p>
+<ul><li><strong>PO-1</strong> — Outlet users raise requisitions (from par suggestions, market lists, or free entry) on mobile or web.</li><li><strong>PO-2</strong> — Multi-level approval chains, configurable by amount thresholds, category, outlet, and role.</li><li><strong>PO-3</strong> — Approved requisitions become POs sent to suppliers via the network, email, or WhatsApp link fallback.</li><li><strong>PO-4</strong> — Suppliers confirm, propose substitutions/price changes, or reject; buyer-visible status throughout.</li><li><strong>PO-5</strong> — Receiving on mobile: quantity/quality confirmation against PO, partial deliveries, discrepancy capture with photos.</li><li><strong>PO-6</strong> — Live price-variance monitoring: received/invoiced price vs contracted price flagged automatically.</li><li><strong>PO-7</strong> — Spend controls: budgets per outlet/category/period with soft and hard limits enforced at requisition time.</li><li><strong>PO-8</strong> — Order consolidation: HQ or agents can consolidate demand across outlets for volume pricing.</li></ul>
+<h2>10.6 Invoice Intelligence</h2>
+<p>PEPPOL e-invoicing exists today on both buyer and supplier sides — a compliance asset neither competitor markets. This module extends automation depth.</p>
+<ul><li><strong>IV-1</strong> — Invoice capture by photo, PDF, email-in, or supplier e-invoice via the network.</li><li><strong>IV-2</strong> — AI extraction of line items, quantities, prices, taxes; learning supplier formats over time.</li><li><strong>IV-3</strong> — 3-way match (PO ↔ goods received ↔ invoice) with auto pass-through for clean matches and exception queue for mismatches.</li><li><strong>IV-4</strong> — Price-change detection: invoice prices update item cost history and trigger recipe-margin recomputation.</li><li><strong>IV-5</strong> — Export/sync to accounting platforms (Xero first; extensible connector model).</li><li><strong>IV-6</strong> — Invoice archive is searchable and audit-grade (configurable retention).</li></ul>
+<h2>10.7 Reporting & Analytics</h2>
+<ul><li><strong>RA-1</strong> — Cross-outlet performance dashboard: consolidated HQ view with drill-down to outlet level.</li><li><strong>RA-2</strong> — Stock variance analysis: actual vs theoretical consumption (recipe data × POS sales volumes), as absolute and percentage.</li><li><strong>RA-3</strong> — Top spending items by cost, filterable by outlet, group, and category.</li><li><strong>RA-4</strong> — Data completeness checklist (invoice reconciliations, unresolved variances, unmapped POS items) shown alongside reports.</li><li><strong>RA-5</strong> — All dashboard data exportable as Excel (.xlsx).</li><li><strong>RA-6</strong> — Live COGS per outlet/group, updating as invoices and sales land.</li><li><strong>RA-7</strong> — Natural-language ask bar: "Which outlets exceeded variance threshold last week?" with linked drill-downs.</li><li><strong>RA-8</strong> — Anomaly feed: agent-detected outliers as actionable cards, not buried charts.</li><li><strong>RA-9</strong> — Scheduled report packs (weekly HQ pack, monthly board pack) auto-generated and distributed.</li></ul>
+<h2>10.8 Nomni AI Agent Layer</h2>
+<div class="note">Design principle: <strong>agents execute, humans govern.</strong> Every agent action is attributable, auditable, and either approval-gated or reversible.</div>
+<div class="tbl-wrap"><table><thead><tr><th>Agent</th><th>Function</th></tr></thead><tbody><tr><td>Ordering agent</td><td>Drafts replenishment orders from par levels, sales velocity, and lead times. Outlet approves with one tap. Learns from edits.</td></tr><tr><td>Invoice agent</td><td>Processes invoice queue end-to-end. Clean 3-way matches auto-post (configurable). Exceptions summarised with recommended resolution.</td></tr><tr><td>Margin agent</td><td>Watches price changes; flags recipes breaching target margin with quantified options (reprice, rebuild, re-source).</td></tr><tr><td>Variance agent</td><td>Investigates stock variances, correlates with waste logs, transfers, and count quality; produces outlet-level explanations.</td></tr><tr><td>Governance agent (HQ)</td><td>Drafts market-list and mapping updates from supplier price files and POS changes. HQ bulk-approves.</td></tr></tbody></table></div>
+<h4>Guardrails (non-negotiable)</h4>
+<ul><li><strong>AG-6</strong> — Every agent action is logged with agent identity, input data, and rationale summary.</li><li><strong>AG-7</strong> — State-changing actions above configurable thresholds require human approval; below threshold they are auto-applied but reversible (Undo window).</li><li><strong>AG-8</strong> — Agents operate only within the requesting user's permission scope.</li><li><strong>AG-9</strong> — Per-group agent enablement: HQ can switch each agent capability on/off and set autonomy thresholds.</li><li><strong>AG-10</strong> — Agent token/compute cost is monitored per group with budget alerts.</li></ul>
+<h2>10.9 Supplier Network & Marketplace</h2>
+<p>Nomni Supply is already a live two-sided product (§4.2). This module adds the marketplace layer — discovery, competition, and intelligence — on top of the existing transaction rails.</p>
+<ul><li><strong>SN-1</strong> — Supplier directory with verified profiles, catalogues, pricing, delivery zones, and ratings.</li><li><strong>SN-2</strong> — In-platform PO exchange with structured confirmations and e-invoices.</li><li><strong>SN-3</strong> — RFQ workflows: HQ can run a quote across network suppliers for a basket and award by outlet group.</li><li><strong>SN-4</strong> — Anonymised price benchmarking: groups see how their paid prices compare to network medians by category and region.</li><li><strong>SN-5</strong> — Supplier onboarding is self-serve with verification workflow.</li></ul>
+<h2>10.10 Central Kitchen Operations</h2>
+<ul><li><strong>CK-1</strong> — CK is a first-class entity: it buys from suppliers and supplies outlets, with its own cost-centre reporting.</li><li><strong>CK-2</strong> — Outlet → CK internal ordering portal with demand consolidation and cut-off times.</li><li><strong>CK-3</strong> — Production planning linked to consolidated outlet demand and recipe yields.</li><li><strong>CK-4</strong> — Dispatch and receive confirmation with variance tracking; both stock positions update automatically.</li><li><strong>CK-5</strong> — Internal transfer pricing and billing flexibility, including external customers of the CK.</li></ul>
+</div>
+  </main>
+</div>
+<script src="wiki_search.js"></script>
+</body>
+</html>
