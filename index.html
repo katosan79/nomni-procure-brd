@@ -3,445 +3,187 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Nomni Procure — Business Requirements Document v2.3</title>
+<title>Business Requirements Document — Nomni Procure BRD</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --seaweed:   #0E3727;
-  --fern:      #129B41;
-  --spinach:   #076715;
-  --spring:    #2AC864;
-  --cream:     #F5F2EF;
-  --porcelain: #FFFFFF;
-  --mint:      #E2FFE6;
-  --stone:     #BCBCBC;
-  --charcoal:  #353535;
-  --ink:       #111111;
-  --soft:      rgba(14,55,39,.55);
-  --border:    rgba(14,55,39,.12);
-  --nav-w:     260px;
-  --radius:    10px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Hanken Grotesk',sans-serif;
-  background:var(--cream);
-  color:var(--seaweed);
-  line-height:1.7;
-  font-size:15px;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.7;color:#1a1a1a;background:#fff}
 
-/* ── NAV ── */
-.sidebar{
-  position:fixed;top:0;left:0;
-  width:var(--nav-w);height:100vh;
-  background:var(--charcoal);
-  display:flex;flex-direction:column;
-  overflow-y:auto;
-  z-index:100;
-}
-.sidebar-header{
-  padding:24px 20px 16px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.sidebar-logo{
-  font-size:13px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--spring);
-}
-.sidebar-title{
-  font-size:11px;color:rgba(255,255,255,.4);
-  margin-top:4px;line-height:1.4;
-}
-.nav-list{
-  padding:12px 0 32px;
-  flex:1;
-}
-.nav-link{
-  display:flex;align-items:baseline;gap:10px;
-  padding:7px 20px;
-  text-decoration:none;
-  color:rgba(255,255,255,.5);
-  font-size:12px;font-weight:500;
-  border-left:2px solid transparent;
-  transition:color .15s,border-color .15s,background .15s;
-}
-.nav-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);}
-.nav-link.active{
-  color:#fff;
-  border-left-color:var(--spring);
-  background:rgba(42,200,100,.08);
-}
-.nav-num{
-  font-size:10px;font-weight:600;color:var(--spring);
-  min-width:18px;opacity:.7;
-  font-variant-numeric:tabular-nums;
-}
-.nav-link.active .nav-num{opacity:1;}
-.nav-label{line-height:1.35;}
-.sidebar-footer{
-  padding:16px 20px;
-  border-top:1px solid rgba(255,255,255,.08);
-  font-size:11px;color:rgba(255,255,255,.25);
-}
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;background:#fafafa;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;z-index:100}
+.main{margin-left:260px;flex:1;min-width:0}
 
-/* ── MAIN ── */
-.main{
-  margin-left:var(--nav-w);
-  min-height:100vh;
-}
-.doc-header{
-  background:var(--seaweed);
-  padding:56px 64px 48px;
-}
-.doc-eyebrow{
-  font-size:11px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--spring);
-  margin-bottom:12px;
-}
-.doc-title{
-  font-size:42px;font-weight:700;
-  color:#fff;
-  line-height:1.15;
-  margin-bottom:8px;
-}
-.doc-subtitle{
-  font-size:17px;font-weight:400;color:rgba(255,255,255,.55);
-  max-width:620px;line-height:1.6;
-  margin-bottom:32px;
-}
-.doc-meta{
-  display:flex;flex-wrap:wrap;gap:24px;
-}
-.doc-meta-item{font-size:12px;color:rgba(255,255,255,.4);}
-.doc-meta-item strong{color:rgba(255,255,255,.75);font-weight:600;}
+/* ── SIDEBAR HEADER ── */
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid #e8e8e8}
+.sb-product{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0e7a3a;margin-bottom:2px}
+.sb-doc{font-size:12px;color:#888;line-height:1.4}
 
-/* ── CONTENT ── */
-.content{
-  max-width:860px;
-  padding:48px 64px 96px;
-}
-.brd-section{
-  padding-bottom:48px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:48px;
-}
-.brd-section:last-child{border-bottom:none;}
+/* ── SEARCH ── */
+.sb-search{padding:12px 14px;border-bottom:1px solid #e8e8e8}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;pointer-events:none;font-size:13px}
+#search-input{width:100%;padding:7px 10px 7px 30px;font-size:13px;border:1px solid #e0e0e0;border-radius:6px;outline:none;background:#fff;color:#1a1a1a;transition:border-color .15s}
+#search-input:focus{border-color:#0e7a3a}
+#search-input::placeholder{color:#bbb}
 
-.sec-title{
-  font-size:26px;font-weight:700;
-  color:var(--seaweed);
-  padding-bottom:10px;
-  border-bottom:2px solid var(--fern);
-  margin-bottom:24px;
-  line-height:1.25;
-}
-h3{
-  font-size:17px;font-weight:600;
-  color:var(--seaweed);
-  margin:28px 0 10px;
-}
-h4{
-  font-size:14px;font-weight:700;
-  color:var(--spinach);
-  margin:20px 0 8px;
-  text-transform:uppercase;letter-spacing:.05em;
-}
-p{margin-bottom:14px;color:var(--seaweed);}
-p:last-child{margin-bottom:0;}
+/* ── SEARCH RESULTS DROPDOWN ── */
+#search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200;max-height:320px;overflow-y:auto;display:none}
+#search-results.visible{display:block}
+.sr-item{display:block;padding:10px 14px;text-decoration:none;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover,.sr-item.active{background:#f5faf7}
+.sr-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#0e7a3a;margin-bottom:2px}
+.sr-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px}
+.sr-snippet{font-size:12px;color:#666;line-height:1.5}
+.sr-snippet mark{background:#e6f5ec;color:#0e7a3a;border-radius:2px;padding:0 2px;font-style:normal}
+.sr-empty{padding:14px;font-size:13px;color:#999;text-align:center}
 
-ul{
-  margin:6px 0 14px 0;
-  padding-left:20px;
-  list-style:none;
-}
-ul li{
-  position:relative;
-  padding:4px 0 4px 16px;
-  font-size:14px;
-  line-height:1.65;
-  color:var(--seaweed);
-  border-bottom:1px solid rgba(14,55,39,.06);
-}
-ul li:last-child{border-bottom:none;}
-ul li::before{
-  content:'';
-  position:absolute;left:0;top:13px;
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--fern);
-}
+/* ── NAV LIST ── */
+.nav-list{flex:1;padding:8px 0 24px}
+.nav-item{display:block;padding:6px 20px 6px 18px;font-size:13px;color:#555;text-decoration:none;border-left:2px solid transparent;transition:all .12s;line-height:1.4}
+.nav-item:hover{color:#1a1a1a;background:#f3f3f3}
+.nav-item.active{color:#0e7a3a;border-left-color:#0e7a3a;background:#f0faf4;font-weight:500}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#bbb;font-variant-numeric:tabular-nums;flex-shrink:0}
+.nav-item.active .nav-num{color:#0e7a3a}
+.nav-divider{height:1px;background:#efefef;margin:6px 14px}
 
-.note{
-  background:var(--mint);
-  border-left:3px solid var(--fern);
-  border-radius:0 var(--radius) var(--radius) 0;
-  padding:12px 16px;
-  font-size:13px;
-  color:var(--spinach);
-  margin:16px 0;
-  line-height:1.6;
-}
+/* ── SIDEBAR FOOTER ── */
+.sb-footer{padding:12px 20px;border-top:1px solid #e8e8e8;font-size:11px;color:#bbb}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:48px 64px 32px;border-bottom:1px solid #efefef;max-width:900px}
+.page-eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#0e7a3a;margin-bottom:8px}
+.page-title{font-size:32px;font-weight:700;color:#111;line-height:1.2;letter-spacing:-.02em}
+.page-subtitle{font-size:15px;color:#666;margin-top:10px;max-width:580px;line-height:1.6}
+
+/* ── CONTENT AREA ── */
+.content{padding:40px 64px 80px;max-width:900px}
+
+/* ── TYPOGRAPHY ── */
+h2{font-size:20px;font-weight:600;color:#111;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #efefef;letter-spacing:-.01em}
+h3{font-size:16px;font-weight:600;color:#111;margin:28px 0 10px}
+h4{font-size:13px;font-weight:700;color:#0e7a3a;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 8px}
+p{margin-bottom:14px;color:#333}
+p:last-child{margin-bottom:0}
+strong{font-weight:600;color:#111}
+
+/* ── LISTS ── */
+ul{margin:6px 0 16px;padding:0;list-style:none}
+ul li{position:relative;padding:5px 0 5px 18px;font-size:14px;color:#333;line-height:1.65;border-bottom:1px solid #f5f5f5}
+ul li:last-child{border-bottom:none}
+ul li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:#0e7a3a}
+
+/* ── NOTE / CALLOUT ── */
+.note{background:#f0faf4;border-left:3px solid #0e7a3a;border-radius:0 6px 6px 0;padding:12px 16px;font-size:13.5px;color:#1d5c2e;margin:16px 0;line-height:1.65}
 
 /* ── TABLES ── */
-.tbl-wrap{
-  margin:16px 0;
-  border-radius:var(--radius);
-  overflow:hidden;
-  border:1px solid var(--border);
-}
-.tbl-wide{overflow-x:auto;}
-table{
-  width:100%;border-collapse:collapse;
-  font-size:13px;
-}
-thead tr{background:var(--seaweed);}
-thead th{
-  padding:10px 14px;
-  text-align:left;
-  font-weight:600;font-size:11px;
-  text-transform:uppercase;letter-spacing:.06em;
-  color:rgba(255,255,255,.85);
-  white-space:nowrap;
-}
-tbody tr:nth-child(even){background:rgba(14,55,39,.03);}
-tbody tr:hover{background:var(--mint);}
-tbody td{
-  padding:10px 14px;
-  vertical-align:top;
-  border-bottom:1px solid var(--border);
-  line-height:1.55;
-  color:var(--seaweed);
-}
-tbody tr:last-child td{border-bottom:none;}
+.tbl-wrap{margin:16px 0;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.tbl-wrap.wide{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:#f7f7f7}
+thead th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#666;border-bottom:1px solid #e8e8e8;white-space:nowrap}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:10px 14px;vertical-align:top;border-bottom:1px solid #f0f0f0;line-height:1.55;color:#333}
+tbody tr:last-child td{border-bottom:none}
 
 /* ── BADGES ── */
-.badge{
-  display:inline-block;
-  font-size:10px;font-weight:700;
-  letter-spacing:.05em;text-transform:uppercase;
-  padding:2px 8px;border-radius:20px;
-}
-.badge-lead{background:#E2FFE6;color:#076715;}
-.badge-parity{background:#FDF3D0;color:#7A5800;}
-.badge-new{background:#EDE9FE;color:#4C1D95;}
+.badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.badge-lead{background:#e0f5e9;color:#0a6e2a}
+.badge-parity{background:#fff3cd;color:#856404}
+.badge-new{background:#ede9fe;color:#5b21b6}
+
+/* ── SEARCH HIGHLIGHT ON PAGE ── */
+mark.hl{background:#fff176;border-radius:2px;padding:0 1px}
+
+/* ── OVERVIEW CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:24px 0}
+.card{display:block;padding:16px 18px;border:1px solid #e8e8e8;border-radius:8px;text-decoration:none;transition:all .15s;background:#fff}
+.card:hover{border-color:#0e7a3a;box-shadow:0 2px 12px rgba(14,122,58,.08)}
+.card-num{font-size:11px;font-weight:600;color:#0e7a3a;margin-bottom:4px;letter-spacing:.04em}
+.card-title{font-size:14px;font-weight:600;color:#111;line-height:1.35}
+.card-desc{font-size:12px;color:#888;margin-top:4px;line-height:1.5}
+
+/* ── META ROW (overview) ── */
+.meta-row{display:flex;flex-wrap:wrap;gap:24px;margin:24px 0;padding:20px;background:#fafafa;border-radius:8px;border:1px solid #efefef}
+.meta-item{}
+.meta-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#999;margin-bottom:3px}
+.meta-value{font-size:14px;font-weight:500;color:#111}
 
 /* ── SCROLLBAR ── */
-.sidebar::-webkit-scrollbar{width:4px;}
-.sidebar::-webkit-scrollbar-track{background:transparent;}
-.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px;}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
 
 /* ── RESPONSIVE ── */
-@media(max-width:900px){
-  :root{--nav-w:0px;}
-  .sidebar{display:none;}
-  .doc-header,.content{padding-left:24px;padding-right:24px;}
-  .doc-title{font-size:28px;}
+@media(max-width:800px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .page-header,.content{padding-left:24px;padding-right:24px}
+  .page-title{font-size:24px}
+  .cards{grid-template-columns:1fr 1fr}
 }
-
-/* ── PRINT ── */
-@media print{
-  .sidebar{display:none;}
-  .main{margin-left:0;}
-  .brd-section{page-break-inside:avoid;}
-}
+@media print{.sidebar{display:none}.main{margin-left:0}}
 </style>
 </head>
 <body>
-
-<nav class="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">Nomni Procure</div>
-    <div class="sidebar-title">Business Requirements Document<br>v2.3 · June 2026</div>
-  </div>
-  <div class="nav-list">
-    <a href="#s1" class="nav-link" data-target="s1"><span class="nav-num">1</span><span class="nav-label">Executive Summary</span></a>
-<a href="#s2" class="nav-link" data-target="s2"><span class="nav-num">2</span><span class="nav-label">Background & Strategic Context</span></a>
-<a href="#s3" class="nav-link" data-target="s3"><span class="nav-num">3</span><span class="nav-label">Competitive Analysis</span></a>
-<a href="#s4" class="nav-link" data-target="s4"><span class="nav-num">4</span><span class="nav-label">Current Platform Baseline</span></a>
-<a href="#s5" class="nav-link" data-target="s5"><span class="nav-num">5</span><span class="nav-label">Data Architecture</span></a>
-<a href="#s6" class="nav-link" data-target="s6"><span class="nav-num">6</span><span class="nav-label">Ideal Customer Profiles</span></a>
-<a href="#s7" class="nav-link" data-target="s7"><span class="nav-num">7</span><span class="nav-label">Vision & Objectives</span></a>
-<a href="#s8" class="nav-link" data-target="s8"><span class="nav-num">8</span><span class="nav-label">User Roles & Access</span></a>
-<a href="#s9" class="nav-link" data-target="s9"><span class="nav-num">9</span><span class="nav-label">Scope</span></a>
-<a href="#s10" class="nav-link" data-target="s10"><span class="nav-num">10</span><span class="nav-label">Functional Requirements</span></a>
-<a href="#s11" class="nav-link" data-target="s11"><span class="nav-num">11</span><span class="nav-label">Experience & Design</span></a>
-<a href="#s12" class="nav-link" data-target="s12"><span class="nav-num">12</span><span class="nav-label">Non-Functional Requirements</span></a>
-<a href="#s13" class="nav-link" data-target="s13"><span class="nav-num">13</span><span class="nav-label">Success Metrics</span></a>
-<a href="#s14" class="nav-link" data-target="s14"><span class="nav-num">14</span><span class="nav-label">Delivery & Phasing</span></a>
-<a href="#s15" class="nav-link" data-target="s15"><span class="nav-num">15</span><span class="nav-label">Risks & Mitigations</span></a>
-<a href="#s16" class="nav-link" data-target="s16"><span class="nav-num">16</span><span class="nav-label">Open Questions</span></a>
-<a href="#s17" class="nav-link" data-target="s17"><span class="nav-num">17</span><span class="nav-label">Conclusion</span></a>
-  </div>
-  <div class="sidebar-footer">Internal &amp; Confidential</div>
-</nav>
-
-<main class="main">
-  <header class="doc-header">
-    <div class="doc-eyebrow">Internal · Confidential · v2.3</div>
-    <h1 class="doc-title">Nomni Procure<br>Business Requirements Document</h1>
-    <p class="doc-subtitle">The AI-Native Procurement &amp; Back-of-House Platform for Multi-Outlet F&amp;B</p>
-    <div class="doc-meta">
-      <div class="doc-meta-item"><strong>Version</strong> 2.3</div>
-      <div class="doc-meta-item"><strong>Status</strong> Draft for executive review</div>
-      <div class="doc-meta-item"><strong>Date</strong> June 2026</div>
-      <div class="doc-meta-item"><strong>Geography</strong> SEA · AU · MEA</div>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sb-header">
+      <div class="sb-product">Nomni Procure</div>
+      <div class="sb-doc">Business Requirements<br>Document v2.3 · Jun 2026</div>
     </div>
-  </header>
-
-  <div class="content">
-    <section id="s1" class="brd-section"><h2 class="sec-title">1. Executive Summary</h2>
-<p>This document defines the business requirements for <strong>Nomni Procure</strong>, the rebuilt, AI-native successor to Zeemart. It supersedes the previous "HQ Module Enhancements" BRD and broadens scope from incremental HQ enhancements to a full product repositioning.</p>
-<p>The strategic intent is to move Nomni Procure from a procurement tool to the <strong>operating system for multi-outlet F&B procurement</strong> — combining centralised HQ governance, a full procure-to-pay lifecycle, real-time cost intelligence, and a named-agent AI layer that executes work rather than merely reporting on it. The rebuild follows a Strangler Fig approach: the existing Java/MongoDB backend is preserved behind a headless API layer, while the frontend, analytics, and agentic capabilities are built new.</p>
-<p>Two competitors anchor the competitive analysis: <strong>Restoke</strong> (AI-led restaurant management, strongest in automated insights and invoice intelligence) and <strong>Supy</strong> (multi-branch inventory and procurement control, strongest in approval workflows, central kitchen operations, and granular permissions). A structured review of the current platform's knowledge base (§4) establishes the baseline: ordering, approvals, GRN receiving, 2/3-way match, invoice digitisation, PEPPOL e-invoicing, and a live supplier product (Nomni Supply) already exist — more than earlier drafts assumed — while HQ governance, agentic AI, unified variance analytics, and the marketplace layer are the genuine gaps.</p>
-<p>Nomni Procure must reach parity on competitor table-stakes and win on three differentiators: a <strong>transactional supplier network</strong>, <strong>agentic execution with human-grade guardrails</strong>, and <strong>HQ governance depth at 100+ outlet scale</strong>.</p>
-<div class="tbl-wrap"><table><thead><tr><th>Attribute</th><th>Detail</th></tr></thead><tbody><tr><td>Document version</td><td>2.3 (supersedes BRD for HQ Module Enhancements v1.x)</td></tr><tr><td>Status</td><td>Draft for executive review</td></tr><tr><td>Date</td><td>June 2026</td></tr><tr><td>Product</td><td>Nomni Procure (formerly Zeemart)</td></tr><tr><td>Classification</td><td>Internal · Confidential</td></tr><tr><td>Geography</td><td>Southeast Asia · Australia · Middle East & Africa</td></tr></tbody></table></div>
-</section><section id="s2" class="brd-section"><h2 class="sec-title">2. Background & Strategic Context</h2>
-<p>Zeemart established a position in Southeast Asia as a B2B procurement platform connecting F&B buyers with suppliers. The existing HQ Module BRD addressed governance pain for multi-outlet groups. Those requirements remain valid, but the market has moved: the category is consolidating around AI-powered back-of-house platforms, with global players (including Oracle NetSuite Restaurant Operations, launched March 2026) entering the space.</p>
-<p>At the same time, AI capability has changed what "good" looks like. Restoke markets itself as an AI restaurant manager whose agentic features handle ordering, prep, and task distribution. Supy positions as the data-driven operating system for multi-branch restaurants. A rebuilt Nomni Procure that simply modernises the UI would launch at parity with 2024; this BRD specifies a product that leads in 2026 and beyond.</p>
-<h3>2.1 Why now</h3>
-<ul><li>The frontend/UX of the current platform is dated and constrains adoption, particularly for outlet-level users on mobile.</li><li>The architecture decision is made: headless API layer over the existing Java/MongoDB backend (Strangler Fig), enabling a new AI-native frontend without a backend rewrite.</li><li>Competitors are converting our addressable market: both Restoke and Supy are active in Singapore and Australia, directly overlapping our core geography.</li><li>AI-assisted delivery (Claude Code, parallel agent sessions) compresses the rebuild timeline to an estimated 5–6 months, making a leapfrog release commercially viable.</li></ul>
-</section><section id="s3" class="brd-section"><h2 class="sec-title">3. Competitive Analysis</h2>
-<p>This section summarises the two reference competitors and derives the capability bar Nomni Procure must meet or beat. Claims are drawn from public product material as of June 2026 and should be re-validated quarterly.</p>
-<h3>3.1 Restoke (restoke.ai)</h3>
-<p><strong>Positioning:</strong> "AI-powered restaurant management" — an AI restaurant manager that unifies POS, accounting, suppliers, and team operations. Founded 2020 in Melbourne; 2,000+ venues across AU, NZ, Singapore, the US, and the UK.</p>
-<ul><li><strong>Restaurant Intelligence:</strong> dashboard insights across purchases and sales, live COGS from POS integration, automatic trend and driver detection, multi-venue analytics with deeper HQ and CPK modules.</li><li><strong>Invoice intelligence:</strong> AI/OCR invoice scanning, automatic categorisation and reconciliation, one-click sync to accounting platforms.</li><li><strong>Agentic operations:</strong> AI used as a task manager for ordering, prep, and to-do lists distributed to staff devices; auto-ingests and maps purchasing, scheduling, and sales data on onboarding.</li><li><strong>Automated procurement:</strong> par-level driven ordering — scheduled orders checked against optimal stock levels; any vendor can be connected.</li><li><strong>Team management:</strong> checklists, training modules, task assignment.</li><li><strong>Claimed outcomes:</strong> 15.6% reduction in F&B costs; 10.1% labour cost reduction from automation.</li></ul>
-<div class="note"><strong>Assessment:</strong> Restoke's strength is breadth of automation and the "AI manager" narrative. Its HQ module is comparatively shallow on governance — it centralises visibility more than it enforces control.</div>
-<h3>3.2 Supy (supy.io)</h3>
-<p><strong>Positioning:</strong> "The operating system for multi-branch restaurants." 3,000+ restaurants in 30+ countries; strong in the Gulf and expanding globally.</p>
-<ul><li><strong>Full procurement lifecycle:</strong> requisitions → multi-level approvals → purchase orders → receiving → invoice reconciliation, on mobile or portal, with live price-variance monitoring and spend limits.</li><li><strong>Granular control:</strong> 200–300+ customisable user permissions, ordering policies, and approval workflows.</li><li><strong>Inventory depth:</strong> real-time stock across sites, live COGS, automated actual-vs-theoretical variance analysis, par levels with auto-replenishment, audited inter-branch stock transfers.</li><li><strong>Central kitchen:</strong> a first-class CK entity — branch ordering portal, demand consolidation, production planning, dispatch/receive confirmation with variance tracking.</li><li><strong>Menu engineering:</strong> recipe costing linked to live ingredient prices and POS sales for real-time profitability analysis.</li><li><strong>Claimed outcomes:</strong> food cost cut up to 25%; waste reduced 80%+; ~65 working days saved per location per year.</li></ul>
-<div class="note"><strong>Assessment:</strong> Supy's strength is operational rigour — approvals, permissions, variance control, and central kitchen workflows. Its AI story is thinner: automations and alerts rather than agents that execute.</div>
-<h3>3.3 Capability bar — where Nomni Procure must win</h3>
-<div class="tbl-wrap tbl-wide"><table><thead><tr><th>Capability</th><th>Restoke</th><th>Supy</th><th>Nomni Procure target</th></tr></thead><tbody><tr><td>HQ governance (lock, push, propagate)</td><td>Partial — visibility-led</td><td>Strong — policy-led</td><td><strong>Lead</strong> — policy-led at 100+ outlets, full audit</td></tr><tr><td>Procure-to-pay lifecycle</td><td>Partial</td><td>Strong</td><td><strong>Parity</strong> + agent-assisted</td></tr><tr><td>Approval workflows & permissions</td><td>Basic roles</td><td>200–300+ permissions</td><td><strong>Parity</strong> — policy engine + role templates</td></tr><tr><td>Invoice OCR & reconciliation</td><td>Strong</td><td>Strong</td><td><strong>Parity</strong> (P0)</td></tr><tr><td>Live COGS & variance analytics</td><td>Strong</td><td>Strong</td><td><strong>Parity</strong> + anomaly agents</td></tr><tr><td>Central kitchen operations</td><td>CPK module</td><td>Strong, first-class</td><td><strong>Parity</strong> (phased)</td></tr><tr><td>Transactional supplier network</td><td>Connect-your-vendor</td><td>Managed catalogue</td><td><strong>Lead</strong> — native marketplace, RFQ, benchmarking</td></tr><tr><td>Agentic AI (executes with approval/undo)</td><td>Emerging</td><td>Automations only</td><td><strong>Lead</strong> — named agents, guardrails, full auditability</td></tr><tr><td>Open API / headless platform</td><td>Limited</td><td>Integration-led</td><td><strong>Lead</strong> — API-first by architecture</td></tr></tbody></table></div>
-</section><section id="s4" class="brd-section"><h2 class="sec-title">4. Current Platform Baseline (KB Review)</h2>
-<p>Based on a structured review of the Nomni support knowledge base (~94 articles across Nomni Procure, Nomni Supply, and Developers collections). Establishes the baseline, corrects assumptions about what is net-new, and identifies improvement areas carried into §10.</p>
-<h3>4.1 Buyer side — Nomni Procure</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Area</th><th>Current capabilities</th></tr></thead><tbody><tr><td>Ordering & receiving</td><td>Order creation (mobile + web); fill-to-par with POS integration; order approvals incl. bulk approval; shortage recording; Goods Received Notes (GRN); downloadable receiving lists; supplier notification of incomplete/wrong deliveries; promo codes.</td></tr><tr><td>Invoices</td><td>Upload by photo, PDF, email-in; AI invoice digitisation; invoices for non-platform orders; approve/reject workflow with rectification; expense category assignment; PEPPOL e-invoice receiving, identification, and PEPPOL ID registration (Buyer Hub).</td></tr><tr><td>Items, suppliers & recipes</td><td>Market list item add/remove; item prices, custom names, product codes, tags; price-change notifications; Group SKU (multi-outlet item normalisation); supplier add/edit; Recipes with inventory tracking.</td></tr><tr><td>Inventory</td><td>Inventory lists and items (desktop + mobile); UOM with conversion rates; stock counts with drafts and multi-unit recording; inventory adjustments; invoice-driven stock quantity updates; stock transfers between lists and outlets.</td></tr><tr><td>Reports & data</td><td>Spending reports (desktop + mobile) and Spending Tracker; 2-Way and 3-Way Match; Price Changes; Order Receiving; COGS and Theoretical COGS; Inventory On Hand; supplier data export; AI insights (BETA).</td></tr><tr><td>Integrations</td><td>Nomni POS incl. POS variant mapping; Xero, QuickBooks Online, MYOB Business.</td></tr><tr><td>Accounts & security</td><td>User management; biometric (fingerprint/face) unlock; company verification.</td></tr></tbody></table></div>
-<h3>4.2 Supplier side — Nomni Supply</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Area</th><th>Current capabilities</th></tr></thead><tbody><tr><td>Order management</td><td>Ordering rules; order acknowledgement; pick lists, picking slips, packing lists; cancel/reject orders; create orders on behalf of customers.</td></tr><tr><td>Catalogue & inventory</td><td>Item/catalogue management; supplier-side inventory; tax rate configuration.</td></tr><tr><td>Invoicing</td><td>Invoice creation with custom numbering and templates; PEPPOL e-invoice issuance, ID registration, customer PEPPOL ID storage; export to Xero and QuickBooks Online.</td></tr><tr><td>Reports & mobile</td><td>Orders Received and Sales reports; supplier mobile app with sales-goal dashboard.</td></tr></tbody></table></div>
-<h3>4.3 Improvement areas identified</h3>
-<div class="tbl-wrap tbl-wide"><table><thead><tr><th>Improvement area</th><th>Observation</th><th>Addressed by</th></tr></thead><tbody><tr><td>No HQ multi-outlet governance</td><td>Group SKU is the only group-level construct; no push/lock/propagate.</td><td>§10.1–10.4</td></tr><tr><td>AI is descriptive, BETA, trust-hedged</td><td>No execution, no agents, positioned as experimental.</td><td>§10.8 agent layer</td></tr><tr><td>Approval depth is basic</td><td>No thresholds by amount/category/role, no multi-level chains, no budgets.</td><td>PO-2, PO-7</td></tr><tr><td>No requisition stage</td><td>Outlets order directly; no req → approval → PO separation.</td><td>PO-1…PO-3</td></tr><tr><td>Variance is fragmented</td><td>COGS and Theoretical COGS are separate reports; no unified variance with alerts.</td><td>IN-6, IN-7, RA-2, AG-4</td></tr><tr><td>Recipes are thin</td><td>No versioning, locking, live margin costing, POS price sync, or approval.</td><td>RC-1…RC-8</td></tr><tr><td>Reporting is static</td><td>Fixed report pages; no cross-outlet dashboard, anomaly feed, or NL queries.</td><td>RA-1…RA-9</td></tr><tr><td>Desktop/mobile fragmentation</td><td>Parallel articles indicate divergent capability across surfaces.</td><td>UX-1, UX-2</td></tr><tr><td>Minimal developer surface</td><td>Single article in Developers collection; no public API.</td><td>NF-1, NF-2</td></tr><tr><td>Supplier network under-leveraged</td><td>Nomni Supply handles transactions but no discovery, RFQ, or benchmarking.</td><td>SN-1…SN-5</td></tr><tr><td>Manual exception handling</td><td>Rejected invoices and delivery discrepancies require manual intervention.</td><td>IV-3, AG-2, PO-4–5</td></tr><tr><td>English-only, password-centric</td><td>No SSO/MFA for enterprise groups.</td><td>UX-6, NF-8</td></tr></tbody></table></div>
-</section><section id="s5" class="brd-section"><h2 class="sec-title">5. Data Architecture — Buyer-Primary Item Model</h2>
-<p>A foundational change to the Nomni Procure data model: the shift from <strong>supplier-primary</strong> (items exist only if a supplier lists them) to <strong>buyer-primary</strong> (buyers own a canonical item master; supplier SKUs are fulfillment options linked to it).</p>
-<h3>5.1 Current model constraints</h3>
-<ul><li>Buyers cannot create items for goods sourced outside the platform.</li><li>Recipes and inventory can only reference items with an active supplier SKU.</li><li>Switching supplier for an item breaks its linkage to recipes, inventory, and historical orders.</li><li>Items produced in-house (central kitchen prep items, own-brand goods) cannot be represented at all.</li></ul>
-<h3>5.2 Target model</h3>
-<p>Three distinct layers:</p>
-<ul><li><strong>Internal Item</strong> — buyer-owned, exists independently of any supplier. Anchor for recipes, inventory, par levels, COGS, and reporting.</li><li><strong>Supplier SKU Link</strong> — connects an internal item to one or more supplier catalogue entries, each with its own price, pack size, UOM conversion, and lead time.</li><li><strong>Preferred Link</strong> — per-outlet or per-group designation of the default fulfillment source, with fallback alternatives.</li></ul>
-<div class="tbl-wrap"><table><thead><tr><th>Internal item</th><th>Supplier</th><th>Supplier SKU</th><th>Pack size</th><th>Price</th></tr></thead><tbody><tr><td>White Sugar</td><td>Supplier A</td><td>WHT-SUGAR-25KG</td><td>25 kg bag</td><td>$42.00</td></tr><tr><td>White Sugar</td><td>Supplier B</td><td>REF-SUGAR-1KG</td><td>1 kg bag</td><td>$2.20</td></tr><tr><td>White Sugar</td><td>Central Kitchen (internal)</td><td>CK-SUGAR-OUT</td><td>5 kg transfer</td><td>Cost price</td></tr></tbody></table></div>
-<div class="note">Recipes, inventory, par levels, and variance reports always reference the <strong>internal item</strong>. Ordering references the <strong>supplier SKU link</strong>. Changing supplier does not touch recipes or inventory history.</div>
-<h3>5.3 Operating modes</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Mode</th><th>Who controls the item master</th><th>Supplier SKU linking</th></tr></thead><tbody><tr><td><strong>HQ Mode</strong></td><td>HQ Administrator creates and owns all internal items. Outlets read and consume; cannot create items.</td><td>HQ links supplier SKUs. Outlets order via those links. HQ sets preferred supplier per group or outlet.</td></tr><tr><td><strong>Standalone Mode</strong></td><td>The outlet itself creates and owns its item master. No group governance layer.</td><td>Outlet links its own suppliers' SKUs. Same one-to-many mechanic, controlled by the outlet.</td></tr><tr><td><strong>HQ Mode + Local Exception</strong></td><td>HQ owns the master. Specific outlets granted permission to create local items not in the HQ master.</td><td>Local items linked to supplier SKUs by the outlet. Visible to HQ as exceptions.</td></tr></tbody></table></div>
-<h3>5.4 Item creation rules by mode</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Action</th><th>HQ Mode (HQ)</th><th>HQ Mode (Outlet)</th><th>Standalone</th></tr></thead><tbody><tr><td>Create internal item</td><td>✓ Full control</td><td>✗ (unless exception granted)</td><td>✓ Full control</td></tr><tr><td>Edit internal item</td><td>✓</td><td>✗ HQ-locked</td><td>✓</td></tr><tr><td>Link supplier SKU to item</td><td>✓</td><td>✗ (HQ only)</td><td>✓</td></tr><tr><td>Set preferred supplier</td><td>✓ (group or per-outlet)</td><td>✗</td><td>✓</td></tr><tr><td>Create local exception item</td><td>✓ (grants permission)</td><td>✓ (if permission granted)</td><td>N/A</td></tr><tr><td>Use in recipes / inventory / orders</td><td>✓</td><td>✓ (par levels editable)</td><td>✓</td></tr></tbody></table></div>
-<h3>5.5 Standalone → HQ upgrade: reconciliation workflow</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Step</th><th>What happens</th></tr></thead><tbody><tr><td><strong>Step 1 — AI-assisted matching</strong></td><td>Automated matching pass comparing outlet items vs HQ master using name similarity, category, UOM, and supplier SKU signals. Confidence score assigned. ≥85% threshold auto-proposed; below threshold queued for human review. Non-destructive — no data changes until HQ confirms.</td></tr><tr><td><strong>Step 2 — HQ review queue</strong></td><td>HQ sees: (a) Auto-matched — proposed links to confirm; (b) Review required — low-confidence pairs; (c) Unmatched outlet items — absorb, local-exception, or deprecate; (d) Conflicts — mismatched UOM/category requiring resolution.</td></tr><tr><td><strong>Step 3 — Outcome states</strong></td><td>Each outlet item resolves to: Mapped (linked to HQ master, outlet loses edit rights), Local exception (outlet retains control, HQ-visible), or Deprecated (archived, history re-referenced to HQ item).</td></tr></tbody></table></div>
-<h3>5.6 Data migration — existing Zeemart buyers</h3>
-<ul><li><strong>Step 1 — Inventory pass:</strong> buyer's existing market list items, inventory items, and recipe ingredients extracted and deduplicated into a candidate internal item list.</li><li><strong>Step 2 — Normalisation:</strong> AI matching agent normalises names, UOMs, categories; anomalies flagged for human review.</li><li><strong>Step 3 — Supplier SKU linkage:</strong> existing market list entries converted into Supplier SKU Links. Historical data retains supplier SKU reference; COGS re-computed against internal item.</li><li><strong>Step 4 — Mode assignment:</strong> group assigned HQ Mode or Standalone Mode. HQ Mode groups with multiple outlets go through the reconciliation workflow.</li><li><strong>Step 5 — Validation:</strong> pre-go-live validation report confirms every recipe ingredient, inventory item, and open order line resolves to a valid internal item + supplier SKU link.</li></ul>
-<div class="note">Migration runs outlet-group by outlet-group — not a single bulk cutover — to limit blast radius and allow rollback per group.</div>
-<h3>5.7 Key benefits unlocked</h3>
-<ul><li><strong>Supplier flexibility:</strong> switch or add suppliers without touching recipes, inventory history, or COGS.</li><li><strong>Price comparison:</strong> multiple supplier SKUs linked to one item enables side-by-side price comparison and lowest-cost fulfillment recommendations.</li><li><strong>In-house items:</strong> prep items, CK outputs, own-brand goods created as internal items with no supplier SKU link.</li><li><strong>Cleaner COGS:</strong> variance and COGS compute against the internal item, eliminating fragmentation from the same ingredient appearing under multiple supplier SKUs across outlets.</li><li><strong>HQ governance:</strong> HQ controls the canonical item definition while suppliers compete to be the linked fulfillment source — buyer-first power structure.</li></ul>
-</section><section id="s6" class="brd-section"><h2 class="sec-title">6. Ideal Customer Profiles (ICPs)</h2>
-<p>Three ICPs define the addressable market for Nomni Procure at launch. Every product decision — feature prioritisation, pricing, onboarding design, agent autonomy defaults, and support model — should be sanity-checked against these profiles. <strong>Geography: Southeast Asia, Australia, and Middle East & Africa.</strong></p>
-<h3>6.1 ICP 1 — SMB Operator</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Attribute</th><th>Profile</th></tr></thead><tbody><tr><td>Who they are</td><td>Independent restaurant, cafe, bar, food truck, ghost kitchen, catering business, or small multi-concept operator. Owner or manager is typically the same person. 1–10 outlets, each often operating independently.</td></tr><tr><td>Size signal</td><td>1–10 outlets. No dedicated procurement team — the owner, chef, or outlet manager handles ordering.</td></tr><tr><td>Operating mode</td><td>Standalone Mode. Each outlet controls its own item master, supplier links, and ordering.</td></tr><tr><td>Current tools</td><td>Spreadsheets, WhatsApp ordering, paper GRNs, or entry-level tools. Xero/MYOB for accounting.</td></tr><tr><td>Primary pain</td><td>Time lost on manual ordering and invoice chasing; no visibility of actual vs theoretical food cost; price changes caught late.</td></tr><tr><td>What they buy</td><td>Ordering, invoice digitisation, basic inventory and stock counts, spending reports, recipe costing, POS integration.</td></tr><tr><td>What they don't need</td><td>HQ governance, multi-level approvals, central kitchen workflows, RFQ, complex reporting.</td></tr><tr><td>Price sensitivity</td><td>High. Max ~$200/outlet/month. Must feel like it saves more than it costs within month one.</td></tr><tr><td>Onboarding</td><td>100% self-serve. Signup, onboarding, supplier connection, and first order without any Nomni human intervention. Time-to-first-order target: same day.</td></tr><tr><td>Markets</td><td>Australia (independent cafes, bars), Singapore (cloud kitchens), UAE/KSA (independent dining).</td></tr></tbody></table></div>
-<h3>6.2 ICP 2 — F&B Group (Mid-Market)</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Attribute</th><th>Profile</th></tr></thead><tbody><tr><td>Who they are</td><td>A growing F&B group with multiple outlets under one or more brands, with a Central Kitchen (CK) supplying some or all outlets. Outlets buy from both external suppliers and the CK.</td></tr><tr><td>Size signal</td><td>~10–50 outlets. One or more brands. At least one Central Kitchen entity. May include franchise and company-owned outlets.</td></tr><tr><td>Operating mode</td><td>Hybrid — HQ Mode + Local Exception. HQ/Ops controls the item master and CK supply. Outlets can order from both external suppliers and the CK via internal ordering portal.</td></tr><tr><td>Central Kitchen</td><td>CK is a first-class entity in Nomni Supply Hub. Receives internal orders, manages production, dispatches, and issues internal transfer records. Billing: cost-price or mark-up for P&L separation.</td></tr><tr><td>Key roles</td><td>Ops/Procurement person manages the CK and group settings. Outlet managers handle day-to-day ordering and receiving.</td></tr><tr><td>Primary pain</td><td>Coordinating CK supply with outlet demand; inconsistent item naming across outlets making COGS unreliable; no single view of ordered vs received vs produced vs sold.</td></tr><tr><td>What they buy</td><td>Full procure-to-pay, CK internal ordering portal, inventory and variance analytics, recipe costing with live margins, approval workflows, Nomni Supply Hub for CK ops.</td></tr><tr><td>Onboarding</td><td>Guided remote setup — one Nomni implementation touchpoint to configure the CK entity, reconcile catalogues, and set approval policies.</td></tr><tr><td>Markets</td><td>Singapore (multi-concept groups), Malaysia, Thailand, Australia (regional chains), UAE.</td></tr></tbody></table></div>
-<h3>6.3 ICP 3 — Large F&B Enterprise</h3>
-<div class="tbl-wrap"><table><thead><tr><th>Attribute</th><th>Profile</th></tr></thead><tbody><tr><td>Who they are</td><td>A large F&B enterprise operating 50–300+ outlets. Dedicated procurement or supply chain team at HQ. May include franchise and company-owned models. Brand consistency and cost control at scale are the primary priorities.</td></tr><tr><td>Size signal</td><td>50–300+ outlets. HQ team of 3–10+ people. May span multiple countries. Multi-brand or single brand at scale.</td></tr><tr><td>Operating mode</td><td>HQ Mode — fully governed. HQ owns and controls item master, recipes, market lists, POS mappings, and approval policies. Outlets execute within HQ guardrails.</td></tr><tr><td>Franchise specifics</td><td>HQ defines approved supplier list and contracted pricing. Franchisees order only from approved suppliers at HQ-negotiated prices. Franchisee compliance is visible to HQ in real time.</td></tr><tr><td>Current tools</td><td>Mix of ERP (SAP, Oracle), legacy procurement system, and spreadsheets for outlet-level operations.</td></tr><tr><td>Primary pain</td><td>Inconsistent outlet compliance with procurement policy; no real-time COGS visibility; invoice reconciliation at scale is a major finance overhead; onboarding new franchise partners is slow.</td></tr><tr><td>What they buy</td><td>Full HQ governance suite, procure-to-pay at scale, invoice intelligence with touchless matching, cross-outlet analytics, supplier network and RFQ, SSO/MFA, public API for ERP integration, dedicated SLA.</td></tr><tr><td>Onboarding</td><td>Enterprise sales and implementation project. API integration with existing ERP. Dedicated AM and SLA-backed support.</td></tr><tr><td>Price sensitivity</td><td>Low — pays for compliance, auditability, and scale. 1–2% food cost saving across 200 outlets justifies significant software spend.</td></tr><tr><td>Markets</td><td>Australia (national QSR and casual dining chains), Singapore (regional HQ of SEA franchise groups), Saudi Arabia/UAE (large MEA franchise operators).</td></tr></tbody></table></div>
-<h3>6.4 ICP comparison</h3>
-<div class="tbl-wrap tbl-wide"><table><thead><tr><th>Dimension</th><th>ICP 1 — SMB</th><th>ICP 2 — Mid-Market</th><th>ICP 3 — Enterprise</th></tr></thead><tbody><tr><td>Operating mode</td><td>Standalone</td><td>HQ + Local Exception</td><td>HQ Mode</td></tr><tr><td>Item master ownership</td><td>Outlet</td><td>Ops/HQ team</td><td>HQ — fully governed</td></tr><tr><td>Central Kitchen</td><td>No</td><td>Yes — Nomni Supply Hub</td><td>Possible — first-class</td></tr><tr><td>Approval workflows</td><td>Simple or none</td><td>Category/amount thresholds</td><td>Multi-level, policy-driven</td></tr><tr><td>AI agents</td><td>Ordering & invoice (auto-approve low-value)</td><td>All agents, moderate thresholds</td><td>All agents, conservative + audit</td></tr><tr><td>Onboarding</td><td>100% self-serve</td><td>Guided remote setup</td><td>Enterprise implementation</td></tr><tr><td>Max price</td><td>~$200/outlet/month</td><td>Value-based per group</td><td>Enterprise contract</td></tr><tr><td>Support</td><td>Self-serve + chat</td><td>Light account management</td><td>Dedicated AM + SLA</td></tr><tr><td>API / ERP integration</td><td>Not required</td><td>Nice to have</td><td>Required (P0)</td></tr><tr><td>Primary success metric</td><td>Time-to-first-order < 1 day</td><td>COGS visibility + CK efficiency</td><td>Outlet compliance + variance control</td></tr></tbody></table></div>
-<h3>6.5 ICP sanity-check rules</h3>
-<ul><li><strong>SMB tax:</strong> does this feature add complexity to self-serve onboarding or require human intervention for ICP 1? If yes, it must be optional/hidden for Standalone Mode or gated to ICP 2+.</li><li><strong>Enterprise floor:</strong> does this feature require capabilities (SSO, API, multi-level approvals, audit logs) that ICP 3 treats as non-negotiable? If yes, it cannot be deprioritised below P1.</li><li><strong>Mode integrity:</strong> does this feature assume HQ Mode in a way that breaks a Standalone Mode user? If yes, it must be mode-aware in its UI and data model.</li><li><strong>CK assumption:</strong> does this feature assume a Central Kitchen exists? If yes, it must degrade gracefully for ICP 1 and ICP 3 groups without a CK.</li><li><strong>Price-to-value for ICP 1:</strong> would an SMB at $200/month feel this justifies part of their subscription? If a feature only serves ICP 3, it should not drive up base-tier pricing.</li></ul>
-</section><section id="s7" class="brd-section"><h2 class="sec-title">7. Vision, Objectives & Non-Goals</h2>
-<h3>7.1 Product vision</h3>
-<p>Every multi-outlet F&B group runs procurement, inventory, recipes, and cost control through Nomni Procure — with HQ defining policy once, outlets executing within guardrails, suppliers transacting natively on the platform, and Nomni agents doing the repetitive work: drafting orders, reconciling invoices, flagging variances, and surfacing decisions that need a human.</p>
-<h3>7.2 Business objectives</h3>
-<ul><li><strong>O1 — Category leadership:</strong> be the reference platform for multi-outlet procurement governance in SEA, AU, and MEA within 18 months of GA.</li><li><strong>O2 — Centralised governance:</strong> HQ defines and enforces market lists, recipes, inventory standards, and POS mappings with zero manual per-outlet effort.</li><li><strong>O3 — Effort reduction:</strong> reduce outlet-level time on ordering, receiving, and reconciliation by 50%+ through automation and agentic workflows.</li><li><strong>O4 — Cost intelligence:</strong> give HQ live COGS, stock variance, and spend analytics trusted enough to drive weekly decisions.</li><li><strong>O5 — Network effects:</strong> grow the transactional supplier network so switching away from Nomni Procure means losing supplier connectivity, not just software.</li><li><strong>O6 — Data accuracy & auditability:</strong> every HQ and agent action is logged, attributable, and reversible where applicable.</li></ul>
-<h3>7.3 Non-goals (this release)</h3>
-<ul><li><strong>NG1 — Workforce management:</strong> rostering, scheduling, and payroll are out of scope — integrate with Restoke/Tanda instead.</li><li><strong>NG2 — Front-of-house:</strong> no POS, reservations, or guest-facing capabilities. We integrate with POS, we do not replace it.</li><li><strong>NG3 — Accounting:</strong> no general ledger. Export and sync to accounting platforms.</li><li><strong>NG4 — Backend re-platform:</strong> the Java/MongoDB core is wrapped, not rewritten.</li><li><strong>NG5 — Fully autonomous purchasing:</strong> agents draft and recommend; humans approve above configured thresholds.</li></ul>
-</section><section id="s8" class="brd-section"><h2 class="sec-title">8. User Roles & Access Model</h2>
-<p>The original two-role model is retained and extended. The roles below are shipped templates over a permission engine, not hard-coded roles. Target: 200+ discrete permissions, composable and enforced at the API layer.</p>
-<div class="tbl-wrap tbl-wide"><table><thead><tr><th>Role</th><th>Description</th><th>Key permissions</th></tr></thead><tbody><tr><td>HQ Administrator</td><td>Group-level owner of procurement governance.</td><td>Full read/write on all group and outlet data; create/edit/push market lists, recipes, inventory, POS mappings; configure policies, thresholds, and agents.</td></tr><tr><td>HQ Approver</td><td>Finance or ops leader who approves sensitive changes and high-value orders.</td><td>Approve/reject recipe changes, mapping overwrites, POs above threshold; read-only elsewhere.</td></tr><tr><td>Outlet Manager</td><td>Runs procurement at one or more outlets.</td><td>Raise requisitions and orders within policy; manage par levels and outlet lists; receive goods; cannot modify HQ-pushed content.</td></tr><tr><td>Outlet User</td><td>Day-to-day staff (counting, receiving).</td><td>Read HQ-defined data; stock counts; receiving confirmation; no edit/delete of HQ content.</td></tr><tr><td>Finance User</td><td>Reconciliation and export.</td><td>Invoice review, 3-way match exceptions, exports to accounting; read-only operations data.</td></tr><tr><td>Supplier User</td><td>Trades on the network.</td><td>Manage catalogue and pricing; receive POs; confirm or propose changes; issue e-invoices; no buyer data beyond own trades.</td></tr></tbody></table></div>
-<ul><li>Permissions are granular and composable (200+ discrete permissions), grouped into shipped role templates; groups can clone and customise.</li><li>All permissions enforced at the API layer, not only in the UI.</li><li>Outlet users see no edit controls on HQ-pushed content; locked records carry a visible &#x2018;Managed by HQ&#x2019; state.</li></ul>
-</section><section id="s9" class="brd-section"><h2 class="sec-title">9. Scope of This Release</h2>
-<p>Modules in scope, in priority order. Modules 9.1–9.4 carry forward and extend the original BRD; 9.5–9.10 reflect the current-platform baseline or net-new scope.</p>
-<div class="tbl-wrap tbl-wide"><table><thead><tr><th>#</th><th>Module</th><th>Origin</th><th>Phase</th></tr></thead><tbody><tr><td>10.1</td><td>Market List Assignment</td><td>Original BRD §5.1, extended</td><td>Phase 4 (MVP module)</td></tr><tr><td>10.2</td><td>Recipe Management</td><td>Original BRD §5.2, extended</td><td>Phase 5</td></tr><tr><td>10.3</td><td>Inventory Management</td><td>Original BRD §5.3, extended</td><td>Phase 5</td></tr><tr><td>10.4</td><td>POS Mapping</td><td>Original BRD §5.4, extended</td><td>Phase 5</td></tr><tr><td>10.5</td><td>Procurement & Ordering (procure-to-pay)</td><td>Existing (orders, approvals, GRN, match reports) — extended</td><td>Phase 5</td></tr><tr><td>10.6</td><td>Invoice Intelligence</td><td>Existing (digitisation, PEPPOL) — extended</td><td>Phase 5</td></tr><tr><td>10.7</td><td>Reporting & Analytics</td><td>Original BRD §5.5, promoted to core</td><td>Phase 5</td></tr><tr><td>10.8</td><td>Nomni AI Agent Layer</td><td>New — primary differentiator</td><td>Phases 4–6</td></tr><tr><td>10.9</td><td>Supplier Network & Marketplace</td><td>Existing (Nomni Supply) — productised</td><td>Phase 6+</td></tr><tr><td>10.10</td><td>Central Kitchen Operations</td><td>New — competitive parity</td><td>Phase 6+ fast follow</td></tr></tbody></table></div>
-</section><section id="s10" class="brd-section"><h2 class="sec-title">10. Functional Requirements</h2>
-<h3>10.1 Market List Assignment</h3>
-<ul><li><strong>ML-1</strong> — HQ can organise and manage market lists by outlet grouping (brand → region → state → outlet).</li><li><strong>ML-2</strong> — HQ can assign a market list — or individual items — to all outlets in a group or a selected subset.</li><li><strong>ML-3</strong> — Changes to an assigned market list propagate automatically to all assigned outlets, with status visible per outlet (propagated / pending / error).</li><li><strong>ML-4</strong> — Propagation never affects in-flight orders containing removed or modified items.</li><li><strong>ML-5</strong> — Scheduled propagation: HQ can stage changes to take effect at a future date/time.</li><li><strong>ML-6</strong> — Conflict surface: where an outlet-level exception exists, propagation flags rather than silently overwrites.</li><li><strong>ML-7</strong> — Nomni agent can draft market-list updates from supplier price-file changes for HQ one-click approval.</li></ul>
-<h3>10.2 Recipe Management</h3>
-<ul><li><strong>RC-1</strong> — HQ can create and maintain a central recipe library, including sub-recipes/prep recipes.</li><li><strong>RC-2</strong> — Pushed recipes are locked for outlet users — ingredients and quantities cannot be modified.</li><li><strong>RC-3</strong> — Full version history with timestamps and author; HQ can roll back to any prior version.</li><li><strong>RC-4</strong> — Recipes include selling price, synced bidirectionally with POS price.</li><li><strong>RC-5</strong> — Live recipe costing: ingredient cost changes recompute recipe cost and margin in real time.</li><li><strong>RC-6</strong> — Margin alerts: configurable thresholds trigger notification when price changes push a recipe below target margin, with agent-suggested responses.</li><li><strong>RC-7</strong> — Approval workflow: recipe changes can require HQ Approver sign-off before propagation.</li><li><strong>RC-8</strong> — Allergen and nutrition fields per recipe, propagated with the recipe.</li></ul>
-<h3>10.3 Inventory Management</h3>
-<ul><li><strong>IN-1</strong> — HQ defines a master inventory item list (name, category, UOM) and pushes it to outlets or outlet groups.</li><li><strong>IN-2</strong> — Outlets can organise HQ-defined items into their own lists; items can appear in multiple lists.</li><li><strong>IN-3</strong> — Outlets set and update par levels per item; par levels can also be HQ-templated by outlet archetype.</li><li><strong>IN-4</strong> — Items removed by HQ show downstream impact (N outlets, X recipes, Y POS mappings) and require confirmation.</li><li><strong>IN-5</strong> — Bulk upload via standardised Excel template with validation report.</li><li><strong>IN-6</strong> — Stock counts: scheduled and spot counts on mobile, variance computed against theoretical stock.</li><li><strong>IN-7</strong> — Automated variance analysis by outlet, category, and ingredient, with drill-down.</li><li><strong>IN-8</strong> — Par-based replenishment suggestions: when stock falls below par, a draft order is generated for outlet approval.</li><li><strong>IN-9</strong> — Inter-outlet stock transfers with request → approve → dispatch → receive workflow and audit trail.</li><li><strong>IN-10</strong> — Waste logging with reason codes, feeding variance and cost analytics.</li></ul>
-<h3>10.4 POS Mapping</h3>
-<ul><li><strong>PM-1</strong> — HQ creates and maintains a master POS mapping set and pushes it to all outlets or a subset.</li><li><strong>PM-2</strong> — Outlets cannot modify or add to POS mappings.</li><li><strong>PM-3</strong> — Variants of POS mappings can be replicated selectively for outlets with partial menu differences.</li><li><strong>PM-4</strong> — Pushing to outlets with existing mappings shows a warning and requires explicit HQ confirmation.</li><li><strong>PM-5</strong> — Mapping health monitor: unmapped POS items and stale mappings surfaced continuously per outlet.</li><li><strong>PM-6</strong> — Agent-suggested mappings: when a new POS item appears, agent proposes a mapping based on name/recipe similarity.</li></ul>
-<h3>10.5 Procurement & Ordering (Procure-to-Pay)</h3>
-<p>The platform already runs ordering, approvals, GRN receiving, and 2/3-way match; this module adds the requisition stage, multi-level policy approvals, and spend controls.</p>
-<ul><li><strong>PO-1</strong> — Outlet users raise requisitions (from par suggestions, market lists, or free entry) on mobile or web.</li><li><strong>PO-2</strong> — Multi-level approval chains, configurable by amount thresholds, category, outlet, and role.</li><li><strong>PO-3</strong> — Approved requisitions become POs sent to suppliers via the network, email, or WhatsApp link fallback.</li><li><strong>PO-4</strong> — Suppliers confirm, propose substitutions/price changes, or reject; buyer-visible status throughout.</li><li><strong>PO-5</strong> — Receiving on mobile: quantity/quality confirmation against PO, partial deliveries, discrepancy capture with photos.</li><li><strong>PO-6</strong> — Live price-variance monitoring: received/invoiced price vs contracted price flagged automatically.</li><li><strong>PO-7</strong> — Spend controls: budgets per outlet/category/period with soft and hard limits enforced at requisition time.</li><li><strong>PO-8</strong> — Order consolidation: HQ or agents can consolidate demand across outlets for volume pricing.</li></ul>
-<h3>10.6 Invoice Intelligence</h3>
-<p>PEPPOL e-invoicing exists today on both buyer and supplier sides — a compliance asset neither competitor markets. This module extends automation depth.</p>
-<ul><li><strong>IV-1</strong> — Invoice capture by photo, PDF, email-in, or supplier e-invoice via the network.</li><li><strong>IV-2</strong> — AI extraction of line items, quantities, prices, taxes; learning supplier formats over time.</li><li><strong>IV-3</strong> — 3-way match (PO ↔ goods received ↔ invoice) with auto pass-through for clean matches and exception queue for mismatches.</li><li><strong>IV-4</strong> — Price-change detection: invoice prices update item cost history and trigger recipe-margin recomputation.</li><li><strong>IV-5</strong> — Export/sync to accounting platforms (Xero first; extensible connector model).</li><li><strong>IV-6</strong> — Invoice archive is searchable and audit-grade (configurable retention).</li></ul>
-<h3>10.7 Reporting & Analytics</h3>
-<ul><li><strong>RA-1</strong> — Cross-outlet performance dashboard: consolidated HQ view with drill-down to outlet level.</li><li><strong>RA-2</strong> — Stock variance analysis: actual vs theoretical consumption (recipe data × POS sales volumes), as absolute and percentage.</li><li><strong>RA-3</strong> — Top spending items by cost, filterable by outlet, group, and category.</li><li><strong>RA-4</strong> — Data completeness checklist (invoice reconciliations, unresolved variances, unmapped POS items) shown alongside reports.</li><li><strong>RA-5</strong> — All dashboard data exportable as Excel (.xlsx).</li><li><strong>RA-6</strong> — Live COGS per outlet/group, updating as invoices and sales land.</li><li><strong>RA-7</strong> — Natural-language ask bar: &ldquo;Which outlets exceeded variance threshold last week?&rdquo; with linked drill-downs.</li><li><strong>RA-8</strong> — Anomaly feed: agent-detected outliers as actionable cards, not buried charts.</li><li><strong>RA-9</strong> — Scheduled report packs (weekly HQ pack, monthly board pack) auto-generated and distributed.</li></ul>
-<h3>10.8 Nomni AI Agent Layer</h3>
-<div class="note">Design principle: <strong>agents execute, humans govern.</strong> Every agent action is attributable, auditable, and either approval-gated or reversible.</div>
-<div class="tbl-wrap"><table><thead><tr><th>Agent</th><th>Function</th></tr></thead><tbody><tr><td>Ordering agent</td><td>Drafts replenishment orders from par levels, sales velocity, and lead times. Outlet approves with one tap. Learns from edits.</td></tr><tr><td>Invoice agent</td><td>Processes invoice queue end-to-end. Clean 3-way matches auto-post (configurable). Exceptions summarised with recommended resolution.</td></tr><tr><td>Margin agent</td><td>Watches price changes; flags recipes breaching target margin with quantified options (reprice, rebuild, re-source).</td></tr><tr><td>Variance agent</td><td>Investigates stock variances, correlates with waste logs, transfers, and count quality; produces outlet-level explanations.</td></tr><tr><td>Governance agent (HQ)</td><td>Drafts market-list and mapping updates from supplier price files and POS changes. HQ bulk-approves.</td></tr></tbody></table></div>
-<h4>Guardrails (non-negotiable)</h4>
-<ul><li><strong>AG-6</strong> — Every agent action is logged with agent identity, input data, and rationale summary.</li><li><strong>AG-7</strong> — State-changing actions above configurable thresholds require human approval; below threshold they are auto-applied but reversible (Undo window).</li><li><strong>AG-8</strong> — Agents operate only within the requesting user's permission scope.</li><li><strong>AG-9</strong> — Per-group agent enablement: HQ can switch each agent capability on/off and set autonomy thresholds.</li><li><strong>AG-10</strong> — Agent token/compute cost is monitored per group with budget alerts.</li></ul>
-<h3>10.9 Supplier Network & Marketplace</h3>
-<p>Nomni Supply is already a live two-sided product (§4.2). This module adds the marketplace layer — discovery, competition, and intelligence — on top of the existing transaction rails.</p>
-<ul><li><strong>SN-1</strong> — Supplier directory with verified profiles, catalogues, pricing, delivery zones, and ratings.</li><li><strong>SN-2</strong> — In-platform PO exchange with structured confirmations and e-invoices.</li><li><strong>SN-3</strong> — RFQ workflows: HQ can run a quote across network suppliers for a basket and award by outlet group.</li><li><strong>SN-4</strong> — Anonymised price benchmarking: groups see how their paid prices compare to network medians by category and region.</li><li><strong>SN-5</strong> — Supplier onboarding is self-serve with verification workflow.</li></ul>
-<h3>10.10 Central Kitchen Operations</h3>
-<ul><li><strong>CK-1</strong> — CK is a first-class entity: it buys from suppliers and supplies outlets, with its own cost-centre reporting.</li><li><strong>CK-2</strong> — Outlet → CK internal ordering portal with demand consolidation and cut-off times.</li><li><strong>CK-3</strong> — Production planning linked to consolidated outlet demand and recipe yields.</li><li><strong>CK-4</strong> — Dispatch and receive confirmation with variance tracking; both stock positions update automatically.</li><li><strong>CK-5</strong> — Internal transfer pricing and billing flexibility, including external customers of the CK.</li></ul>
-</section><section id="s11" class="brd-section"><h2 class="sec-title">11. Experience & Design Requirements</h2>
-<ul><li><strong>UX-1</strong> — All UI built on the Nomni Design System (v1.6+): documented tokens and component registry only; agent surfaces use the agent signature treatment (named agent, approve/undo states).</li><li><strong>UX-2</strong> — Mobile-first for outlet workflows (requisitions, receiving, counts); desktop-optimised for HQ governance and analytics.</li><li><strong>UX-3</strong> — Status is never conveyed by colour alone; WCAG AA contrast minimums enforced at build.</li><li><strong>UX-4</strong> — Command menu (⌘K) for HQ power users: jump to any outlet, recipe, item, or report.</li><li><strong>UX-5</strong> — Onboarding auto-ingests existing data (item lists, supplier files, POS exports) with AI-assisted mapping. Time-to-first-value under one day for a new group.</li><li><strong>UX-6</strong> — Multi-language support: English at GA; Bahasa, Thai, Vietnamese, and Simplified Chinese on the roadmap.</li></ul>
-</section><section id="s12" class="brd-section"><h2 class="sec-title">12. Non-Functional Requirements</h2>
-<h3>12.1 Architecture</h3>
-<ul><li><strong>NF-1</strong> — Headless, API-first: all functionality exposed through a documented API layer wrapping the existing Java/MongoDB backend. New frontend is exclusively an API consumer.</li><li><strong>NF-2</strong> — Public API and webhooks for customer and partner integrations.</li><li><strong>NF-3</strong> — AI layer consumes the same governed APIs; agent context is permission-scoped.</li></ul>
-<h3>12.2 Performance & scale</h3>
-<ul><li><strong>NF-4</strong> — Support 100+ outlets per group and 500+ concurrent users without degradation; dashboard queries return in under 3 seconds at p95.</li><li><strong>NF-5</strong> — Propagation operations complete across 100+ outlets within 60 seconds with per-outlet status.</li></ul>
-<h3>12.3 Security & access control</h3>
-<ul><li><strong>NF-6</strong> — Role-based access enforced at the API layer; granular permission engine per §8.</li><li><strong>NF-7</strong> — Approval workflows for sensitive changes (recipes, mappings, high-value POs).</li><li><strong>NF-8</strong> — SSO (SAML/OIDC) for enterprise groups; MFA available for all roles.</li><li><strong>NF-9</strong> — Data isolation per tenant; supplier users cannot access buyer data beyond own trades.</li></ul>
-<h3>12.4 Auditability</h3>
-<ul><li><strong>NF-10</strong> — Full audit logs for all HQ actions and agent actions — searchable and exportable.</li><li><strong>NF-11</strong> — Agent actions carry rationale summaries sufficient for a human reviewer to understand why the action was taken.</li></ul>
-<h3>12.5 Reliability & data</h3>
-<ul><li><strong>NF-12</strong> — 99.9% availability target for ordering and receiving paths.</li><li><strong>NF-13</strong> — Offline-tolerant mobile flows for stock counts and receiving (queue and sync).</li><li><strong>NF-14</strong> — Data residency options for SG/AU enterprise customers.</li></ul>
-</section><section id="s13" class="brd-section"><h2 class="sec-title">13. Success Metrics</h2>
-<div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Definition</th><th>Target</th></tr></thead><tbody><tr><td>Governance adoption</td><td>% of group outlets receiving HQ-pushed lists/recipes</td><td>90% within 60 days of group onboarding</td></tr><tr><td>Ordering automation</td><td>% of orders originating from agent drafts or par suggestions</td><td>60% by GA+6 months</td></tr><tr><td>Invoice touchless rate</td><td>% of invoices 3-way matched with no human touch</td><td>70% by GA+6 months</td></tr><tr><td>Time-to-first-value</td><td>New group onboarded to first live order</td><td>< 1 day</td></tr><tr><td>Outlet effort</td><td>Time per outlet per week on ordering/receiving/reconciliation</td><td>−50% vs baseline</td></tr><tr><td>Variance visibility</td><td>Outlets with weekly variance reported</td><td>100% of active outlets</td></tr><tr><td>Network liquidity</td><td>% of PO value transacted via in-platform suppliers</td><td>40% by GA+12 months</td></tr><tr><td>Competitive win rate</td><td>Head-to-head evaluations vs Restoke/Supy won</td><td>> 50%</td></tr></tbody></table></div>
-</section><section id="s14" class="brd-section"><h2 class="sec-title">14. Delivery Approach & Phasing</h2>
-<p>Six-phase Strangler Fig programme (~5–6 months with AI-assisted development). The Marketlist MVP ships to production in Phase 4 as proof of concept — the explicit mitigation for the stall risk observed in comparable modernisation programmes.</p>
-<div class="tbl-wrap"><table><thead><tr><th>Phase</th><th>Content</th><th>Duration</th></tr></thead><tbody><tr><td>1</td><td>Backend audit & API readiness (Java/MongoDB review, API contract draft)</td><td>2–3 weeks</td></tr><tr><td>2</td><td>API wrapper & headless layer; contracts locked</td><td>4–6 weeks (parallel with 3)</td></tr><tr><td>3</td><td>UI/UX design system application & screen design (Claude-assisted)</td><td>4–5 weeks (parallel with 2)</td></tr><tr><td>4</td><td>Marketlist MVP live (incl. first agent surface: governance agent drafts)</td><td>4–6 weeks</td></tr><tr><td>5</td><td>Recipes, Inventory, POS Mapping, Procure-to-Pay, Invoice Intelligence, Analytics</td><td>6–8 weeks</td></tr><tr><td>6</td><td>Integration, performance at 100+ outlet scale, security review, hardening</td><td>3–4 weeks</td></tr><tr><td>Fast follow</td><td>Central Kitchen module; Supplier Network marketplace expansion; additional agents</td><td>Post-GA roadmap</td></tr></tbody></table></div>
-<div class="note">Key risk to manage: research across 41 similar Strangler Fig projects shows 68% stall before 90 days. The mitigation: ship the Marketlist MVP to production in Phase 4. A live product in users' hands creates accountability and validates the architecture before committing full resources to the rollout.</div>
-</section><section id="s15" class="brd-section"><h2 class="sec-title">15. Risks & Mitigations</h2>
-<div class="tbl-wrap"><table><thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr></thead><tbody><tr><td>Programme stalls mid-migration (common Strangler Fig failure)</td><td>Sunk cost, competitive drift</td><td>Ship Marketlist MVP to production in Phase 4; momentum via live usage</td></tr><tr><td>Backend audit reveals deeper coupling than expected</td><td>Phase 2 overruns</td><td>Phase 1 gate review; adapter-layer budget; scope wrapper to MVP endpoints first</td></tr><tr><td>Agent errors damage trust</td><td>Adoption collapse for AI features</td><td>Approval thresholds, undo windows, rationale logging, per-group enablement (AG-6–AG-10)</td></tr><tr><td>AI run-cost erodes margin</td><td>Unit economics</td><td>Agent cost monitoring per group (AG-10); structured-data-first architecture minimises tokens</td></tr><tr><td>Competitors close the network gap</td><td>Moat erosion</td><td>Accelerate supplier onboarding; price benchmarking as network-only feature</td></tr><tr><td>Scope breadth delays GA</td><td>Market window missed</td><td>Module phasing per §14; CK and marketplace as fast follow, not GA blockers</td></tr></tbody></table></div>
-</section><section id="s16" class="brd-section"><h2 class="sec-title">16. Open Questions</h2>
-<ul><li><strong>OQ-1 (Engineering, blocking):</strong> Phase 1 audit outcome — which backend endpoints are exposable as-is vs requiring adapters?</li><li><strong>OQ-2 (Product):</strong> Default agent autonomy thresholds per region/segment — what order value requires approval out of the box?</li><li><strong>OQ-3 (Commercial):</strong> Pricing model — per outlet per month (Supy-style) vs platform fee + network take rate; marketplace monetisation.</li><li><strong>OQ-4 (Data/Legal):</strong> Anonymised price benchmarking (SN-4) — consent model and competition-law review per market.</li><li><strong>OQ-5 (Product):</strong> POS integration priority order beyond Abacus for AU/SEA coverage.</li><li><strong>OQ-6 (Engineering):</strong> PEPPOL e-invoicing exists today for SG — what is required to extend coverage to AU eInvoicing and other markets through the new API layer?</li></ul>
-</section><section id="s17" class="brd-section"><h2 class="sec-title">17. Conclusion</h2>
-<p>This BRD carries forward every commitment of the original HQ Module Enhancements document and extends it to a product that can lead its category. The competitive analysis is direct about the bar: Supy defines operational rigour, Restoke defines AI ambition. Nomni Procure's winning position combines both and adds what neither has — a transactional supplier network and an agent layer with enterprise-grade governance, delivered on an API-first architecture that compounds.</p>
-<p>Three foundational decisions differentiate this release: the <strong>buyer-primary data model</strong> (§5) flips the power structure from supplier-led to buyer-led; the <strong>three ICP model</strong> (§6) ensures the product serves SMB self-serve, mid-market hybrid, and enterprise governance without conflating them; and the <strong>agent layer with hard guardrails</strong> (§10.8) makes AI a trusted execution partner rather than an experimental feature.</p>
-<div class="note">Approval of this document authorises <strong>Phase 1 (backend audit)</strong> to proceed immediately.</div>
-</section>
-  </div>
-</main>
-
-<script>
-// Active nav highlight on scroll
-const links = document.querySelectorAll('.nav-link');
-const targets = [...links].map(l => document.getElementById(l.dataset.target)).filter(Boolean);
-
-function onScroll() {
-  const scrollY = window.scrollY + 120;
-  let active = targets[0];
-  for (const t of targets) {
-    if (t.offsetTop <= scrollY) active = t;
-  }
-  links.forEach(l => l.classList.toggle('active', l.dataset.target === active.id));
-}
-window.addEventListener('scroll', onScroll, {passive:true});
-onScroll();
-</script>
+    <div class="sb-search">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="search-input" type="text" placeholder="Search the BRD…" autocomplete="off" spellcheck="false"/>
+        <div id="search-results"></div>
+      </div>
+    </div>
+    <div class="nav-list"><div class="nav-divider"></div><a href="index.html" class="nav-item active"><span class="nav-num"></span>Overview</a>
+<a href="s1.html" class="nav-item"><span class="nav-num">1</span>Executive Summary</a>
+<a href="s2.html" class="nav-item"><span class="nav-num">2</span>Background & Strategy</a>
+<a href="s3.html" class="nav-item"><span class="nav-num">3</span>Competitive Analysis</a>
+<a href="s4.html" class="nav-item"><span class="nav-num">4</span>Platform Baseline</a>
+<a href="s5.html" class="nav-item"><span class="nav-num">5</span>Data Architecture</a>
+<a href="s6.html" class="nav-item"><span class="nav-num">6</span>Ideal Customer Profiles</a>
+<a href="s7.html" class="nav-item"><span class="nav-num">7</span>Vision & Objectives</a>
+<a href="s8.html" class="nav-item"><span class="nav-num">8</span>User Roles & Access</a>
+<a href="s9.html" class="nav-item"><span class="nav-num">9</span>Scope</a>
+<a href="s10.html" class="nav-item"><span class="nav-num">10</span>Functional Requirements</a>
+<a href="s11.html" class="nav-item"><span class="nav-num">11</span>Experience & Design</a>
+<a href="s12.html" class="nav-item"><span class="nav-num">12</span>Non-Functional Requirements</a>
+<a href="s13.html" class="nav-item"><span class="nav-num">13</span>Success Metrics</a>
+<a href="s14.html" class="nav-item"><span class="nav-num">14</span>Delivery & Phasing</a>
+<a href="s15.html" class="nav-item"><span class="nav-num">15</span>Risks & Mitigations</a>
+<a href="s16.html" class="nav-item"><span class="nav-num">16</span>Open Questions</a>
+<a href="s17.html" class="nav-item"><span class="nav-num">17</span>Conclusion</a></div>
+    <div class="sb-footer">Internal · Confidential</div>
+  </nav>
+  <main class="main">
+    <div class="page-header">
+      <div class="page-eyebrow">Nomni Procure · BRD v2.3</div>
+      <h1 class="page-title">Business Requirements Document</h1>
+      <p class="page-subtitle">The AI-Native Procurement & Back-of-House Platform for Multi-Outlet F&B</p>
+    </div>
+    <div class="content">
+<div class="meta-row">
+  <div class="meta-item"><div class="meta-label">Version</div><div class="meta-value">2.3</div></div>
+  <div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">Draft for executive review</div></div>
+  <div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">June 2026</div></div>
+  <div class="meta-item"><div class="meta-label">Product</div><div class="meta-value">Nomni Procure (formerly Zeemart)</div></div>
+  <div class="meta-item"><div class="meta-label">Geography</div><div class="meta-value">SEA · AU · MEA</div></div>
+</div>
+<p>This BRD defines the requirements for rebuilding Nomni Procure as an AI-native platform — combining centralised HQ governance, a full procure-to-pay lifecycle, real-time cost intelligence, and a named-agent AI layer. Use the sidebar or the cards below to navigate.</p>
+<div class="cards">
+  <a class="card" href="s1.html"><div class="card-num">1</div><div class="card-title">Executive Summary</div></a><a class="card" href="s2.html"><div class="card-num">2</div><div class="card-title">Background & Strategy</div></a><a class="card" href="s3.html"><div class="card-num">3</div><div class="card-title">Competitive Analysis</div></a><a class="card" href="s4.html"><div class="card-num">4</div><div class="card-title">Platform Baseline</div></a><a class="card" href="s5.html"><div class="card-num">5</div><div class="card-title">Data Architecture</div></a><a class="card" href="s6.html"><div class="card-num">6</div><div class="card-title">Ideal Customer Profiles</div></a><a class="card" href="s7.html"><div class="card-num">7</div><div class="card-title">Vision & Objectives</div></a><a class="card" href="s8.html"><div class="card-num">8</div><div class="card-title">User Roles & Access</div></a><a class="card" href="s9.html"><div class="card-num">9</div><div class="card-title">Scope</div></a><a class="card" href="s10.html"><div class="card-num">10</div><div class="card-title">Functional Requirements</div></a><a class="card" href="s11.html"><div class="card-num">11</div><div class="card-title">Experience & Design</div></a><a class="card" href="s12.html"><div class="card-num">12</div><div class="card-title">Non-Functional Requirements</div></a><a class="card" href="s13.html"><div class="card-num">13</div><div class="card-title">Success Metrics</div></a><a class="card" href="s14.html"><div class="card-num">14</div><div class="card-title">Delivery & Phasing</div></a><a class="card" href="s15.html"><div class="card-num">15</div><div class="card-title">Risks & Mitigations</div></a><a class="card" href="s16.html"><div class="card-num">16</div><div class="card-title">Open Questions</div></a><a class="card" href="s17.html"><div class="card-num">17</div><div class="card-title">Conclusion</div></a>
+</div>
+</div>
+  </main>
+</div>
+<script src="wiki_search.js"></script>
 </body>
 </html>
